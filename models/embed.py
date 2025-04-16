@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+from utils.tools import StandardScaler
 import math
 
 class PositionalEmbedding(nn.Module):
@@ -104,7 +104,8 @@ class DataEmbedding(nn.Module):
         self.dropout = nn.Dropout(p=dropout)
 
     def forward(self, x, x_mark):
-        print(f'Input Data: {x}', flush=True) 
+        scaler_inv = StandardScaler()
+        print(f'Input Data: {scaler_inv.inverse_transform(x)}', flush=True) 
         x = self.value_embedding(x) + self.position_embedding(x) + self.temporal_embedding(x_mark)
         
         return self.dropout(x)
